@@ -396,3 +396,18 @@ nav .app-nav .main-nav>li:not(.menu-title)>a::after {
 nav .app-nav .main-nav>li:not(.menu-title)>a[aria-expanded="true"]::after {
     transform: translateY(-50%) rotate(180deg) !important;
 }
+
+.sidebar-item-icon {
+    width: 20px;
+    height: 20px;
+}
+
+span.sidebar-item-label {
+    margin-left: 5px;
+}
+
+.sidebar-item-icon iconify-icon {
+    font-size: 20px;
+    top: 3px;
+    position: relative;
+}

@@ -1,7 +1,8 @@
 <nav class="vertical-sidebar">
     <div class="app-logo">
         <a class="logo d-inline-block" href="#">
-            <img alt="#" src="{{ frappe.utils.get_url() }}/assets/naidapa_theme/images/logo.png" style="height: 32px">
+            <img alt="#" src="{{ frappe.utils.get_url() }}/assets/naidapa_theme/images/logo.png" style="height: 32px"
+                width="initial !important">
         </a>
     </div>
 
@@ -14,19 +15,16 @@
             {% for page in pages %}
             <li>
                 <a href="/app/{{ page.name | lower | replace(' ', '-') }}">
-                    {% if page.icon %}
-                    <svg class="icon icon-md"
-                        style="width: 20px; height: 20px; margin-right: 12px; stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.7;">
-                        <use href="#icon-{{ page.icon }}"></use>
-                    </svg>
+                    {% if page.custom_animated_icon %}
+                    <span class="sidebar-item-icon">
+                        <iconify-icon icon="line-md:{{ page.custom_animated_icon }}"></iconify-icon>
+                    </span>
                     {% else %}
-                    <svg stroke="currentColor" stroke-width="1.5">
-                        <use
-                            xlink:href="https://phpstack-1384472-5121645.cloudwaysapps.com/template/html/ki-admin/assets/svg/_sprite.svg#home">
-                        </use>
-                    </svg>
+                    <span class="sidebar-item-icon">
+                        <iconify-icon icon="line-md:arrow-small-right"></iconify-icon>
+                    </span>
                     {% endif %}
-                    {{ page.title }}
+                    <span class="sidebar-item-label">{{ page.title }}<span>
                 </a>
             </li>
             {% endfor %}

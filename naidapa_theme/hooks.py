@@ -33,6 +33,7 @@ app_include_css = [
 ]
 app_include_js = [
     "/assets/naidapa_theme/vendor/simplebar/simplebar.js",
+    "/assets/naidapa_theme/vendor/animated_icon/iconify-icon.min.js",
     "/assets/naidapa_theme/js/naidapa_theme.js"
 ]
 
