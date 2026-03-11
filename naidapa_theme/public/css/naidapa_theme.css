@@ -307,7 +307,6 @@ nav .app-nav .main-nav>li.active>a iconify-icon {
 /* -------------------------------------------------------------------------- */
 
 /* 1. The Card Container */
-.widget,
 .frappe-card,
 .desk-sidebar {
     background: var(--surface-color) !important;
@@ -455,4 +454,16 @@ span.sidebar-item-label {
     font-size: 20px;
     top: 3px;
     position: relative;
+}
+
+[data-page-route="Workspaces"] .layout-main .layout-main-section {
+    padding: 0px !important;
+    border: 1px solid transparent !important;
+    background-color: transparent !important;
+}
+
+.links-widget-box {
+    padding: 10px;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color-frappe);
 }
