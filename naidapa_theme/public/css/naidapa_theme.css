@@ -326,9 +326,6 @@ nav .app-nav .main-nav>li.active>a iconify-icon {
 .widget .widget-head {
     padding: 16px 24px !important;
     background: transparent !important;
-    border-bottom: 1px dashed var(--border-color-frappe) !important;
-    display: flex;
-    align-items: center;
 }
 
 .widget .widget-title {
@@ -404,19 +401,116 @@ nav .app-nav .main-nav>li.active>a iconify-icon {
 
 .shortcut-widget-box {
     cursor: pointer;
-    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
     position: relative;
-    padding: 0.75rem 1rem;
+    padding: 1.25rem 1.25rem;
+    min-height: 68px;
     background-color: var(--surface-color) !important;
     border-radius: var(--radius-md);
-    box-shadow: var(--box-shadow);
-    transition: var(--app-transition);
-    border: 1px solid var(--border-color-frappe);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Unique Modern Element: Expanding accent corner */
+.shortcut-widget-box::before {
+    content: '';
+    position: absolute;
+    right: -24px;
+    top: -24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    opacity: 0.3;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: -1;
 }
 
 .shortcut-widget-box:hover {
-    box-shadow: var(--hover-shadow);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+}
+
+.shortcut-widget-box:hover::before {
+    transform: scale(3.5);
+    opacity: 0.85;
+}
+
+/* Hover colored variations using parent nth-child */
+.ce-block:nth-child(6n+1) .shortcut-widget-box::before {
+    background-color: #86efac;
+}
+
+.ce-block:nth-child(6n+1) .shortcut-widget-box:hover .widget-control svg.es-icon {
+    stroke: #15803d !important;
+}
+
+.ce-block:nth-child(6n+2) .shortcut-widget-box::before {
+    background-color: #fcd34d;
+}
+
+.ce-block:nth-child(6n+2) .shortcut-widget-box:hover .widget-control svg.es-icon {
+    stroke: #b45309 !important;
+}
+
+.ce-block:nth-child(6n+3) .shortcut-widget-box::before {
+    background-color: #93c5fd;
+}
+
+.ce-block:nth-child(6n+3) .shortcut-widget-box:hover .widget-control svg.es-icon {
+    stroke: #1d4ed8 !important;
+}
+
+.ce-block:nth-child(6n+4) .shortcut-widget-box::before {
+    background-color: #f9a8d4;
+}
+
+.ce-block:nth-child(6n+4) .shortcut-widget-box:hover .widget-control svg.es-icon {
+    stroke: #be185d !important;
+}
+
+.ce-block:nth-child(6n+5) .shortcut-widget-box::before {
+    background-color: #fca5a5;
+}
+
+.ce-block:nth-child(6n+5) .shortcut-widget-box:hover .widget-control svg.es-icon {
+    stroke: #b91c1c !important;
+}
+
+.ce-block:nth-child(6n+6) .shortcut-widget-box::before {
+    background-color: #c4b5fd;
+}
+
+.ce-block:nth-child(6n+6) .shortcut-widget-box:hover .widget-control svg.es-icon {
+    stroke: #6d28d9 !important;
+}
+
+/* Content adjustments */
+.shortcut-widget-box .widget-head {
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+.shortcut-widget-box .widget-title {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: var(--font-color) !important;
+}
+
+.shortcut-widget-box .widget-control svg.es-icon {
+    width: 18px !important;
+    height: 18px !important;
+    stroke: var(--font-light-color) !important;
+    transition: var(--app-transition);
+}
+
+.shortcut-widget-box:hover .widget-control svg.es-icon {
+    transform: translate(2px, -2px);
 }
 
 /* --- OVERRIDE KI-ADMIN MISSING ICONS --- */
