@@ -164,6 +164,11 @@ body.naidapa-theme-active .container {
     width: 100%;
 }
 
+/* Ensure sidebar sits above native sticky navbars */
+nav.vertical-sidebar {
+    z-index: 1030 !important;
+}
+
 .app-wrapper .app-content {
     min-height: 100vh;
     padding: 0px 0px 0px 286px;
@@ -274,13 +279,9 @@ nav .app-nav .main-nav>li.active>a iconify-icon {
 /* Sidebar Toggle and Responsiveness */
 @media (min-width: 992px) {
 
-    /* When sidebar is collapsed on desktop */
-    body.sidebar-menu-opened nav {
+    /* The desktop hide logic is completely removed so the semi-nav class can dictate standard shrinking instead of hiding entirely */
+    body.sidebar-menu-opened nav:not(.semi-nav) {
         margin-left: -286px;
-    }
-
-    body.sidebar-menu-opened .app-wrapper .app-content {
-        padding-left: 0;
     }
 }
 
@@ -595,13 +596,18 @@ nav .app-nav .main-nav>li:not(.menu-title)>a::after {
     height: 16px !important;
     right: 1.25rem !important;
     top: 50% !important;
-    transform: translateY(-50%) !important;
+    transform: translateY(-50%) rotate(-90deg) !important;
     transition: transform 0.2s ease !important;
 }
 
-/* Rotate the SVG natively when the sub-menu is expanded */
+/* Rotate the SVG natively when the sub-menu is expanded to point downwards */
 nav .app-nav .main-nav>li:not(.menu-title)>a[aria-expanded="true"]::after {
-    transform: translateY(-50%) rotate(180deg) !important;
+    transform: translateY(-50%) rotate(0deg) !important;
+}
+
+/* Hide the dropdown arrow entirely when the sidebar is in semi-nav state */
+nav.semi-nav .app-nav .main-nav>li:not(.menu-title)>a::after {
+    display: none !important;
 }
 
 .sidebar-item-icon {
@@ -663,4 +669,248 @@ span.sidebar-item-label {
 /* Remove default faint fill so line is distinct */
 .frappe-chart path.region-fill {
     display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* NUMBER WIDGET CARDS OVERRIDES                                              */
+/* -------------------------------------------------------------------------- */
+
+.number-widget-box {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 24px !important;
+    position: relative !important;
+    border-radius: var(--radius-lg) !important;
+    overflow: hidden !important;
+    min-height: 150px !important;
+    transition: var(--transition-fast) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Allow absolute positioning of control without breaking flex flow */
+.number-widget-box .widget-head,
+.number-widget-box .widget-body,
+.number-widget-box .widget-content,
+.number-widget-box .widget-label {
+    display: contents !important;
+}
+
+.number-widget-box .widget-control {
+    position: absolute !important;
+    top: 24px !important;
+    right: 24px !important;
+    z-index: 10 !important;
+}
+
+/* Fix dropdown menu inside control */
+.number-widget-box .widget-control .dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+    top: 100% !important;
+}
+
+/* Custom decorative icon area via pseudo-element */
+.number-widget-box::after {
+    content: '' !important;
+    display: block !important;
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50% !important;
+    margin-bottom: 16px !important;
+    order: 1 !important;
+    background-size: 24px 24px !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    z-index: 2 !important;
+}
+
+/* Big Number gets order 2 */
+.number-widget-box .number {
+    order: 2 !important;
+    font-size: 32px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    margin-bottom: 4px !important;
+    color: var(--text-primary) !important;
+    z-index: 2 !important;
+}
+
+/* Title goes below Number */
+.number-widget-box .widget-title {
+    order: 3 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    text-transform: capitalize !important;
+    color: var(--text-secondary) !important;
+    z-index: 2 !important;
+}
+
+/* Stats underneath */
+.number-widget-box .card-stats {
+    order: 4 !important;
+    font-size: 12px !important;
+    opacity: 0.8 !important;
+    margin-top: 6px !important;
+    z-index: 2 !important;
+}
+
+/* Hover lift effect */
+.number-widget-box:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: var(--hover-shadow) !important;
+}
+
+/* --- THEME VARIATIONS --- */
+
+/* Variation 1: Pristine White */
+.number-widget-box[data-color-index="0"] {
+    background-color: #ffffff !important;
+}
+
+.number-widget-box[data-color-index="0"] .number {
+    color: #111827 !important;
+}
+
+.number-widget-box[data-color-index="0"]::after {
+    background-color: var(--primary-color) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='23 6 13.5 15.5 8.5 10.5 1 18'%3E%3C/polyline%3E%3Cpolyline points='17 6 23 6 23 12'%3E%3C/polyline%3E%3C/svg%3E") !important;
+}
+
+.number-widget-box[data-color-index="0"]::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -20px !important;
+    right: -20px !important;
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50% !important;
+    background-color: #f4f7f8 !important;
+    z-index: 1 !important;
+}
+
+.number-widget-box[data-color-index="0"] .widget-control svg,
+.number-widget-box[data-color-index="0"] .widget-title span.ellipsis {
+    color: var(--primary-color) !important;
+    fill: var(--primary-color) !important;
+    stroke: var(--primary-color) !important;
+}
+
+/* Variation 2: Green Chart Gradient */
+.number-widget-box[data-color-index="1"] {
+    background: linear-gradient(135deg, #10b981 0%, #73c76b 60%, #d4dda0 100%) !important;
+    border: 0px !important;
+}
+
+.number-widget-box[data-color-index="1"] .widget-title,
+.number-widget-box[data-color-index="1"] .card-stats {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.number-widget-box[data-color-index="1"] .number {
+    color: #ffffff !important;
+}
+
+.number-widget-box[data-color-index="1"] .widget-control svg,
+.number-widget-box[data-color-index="1"] .widget-title span.ellipsis {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+.number-widget-box[data-color-index="1"]::after {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    /* Bar chart / trending icon using white */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3v18h18'/%3E%3Cpath d='M18.7 8l-5.1 5.2-2.8-2.7L7 14.3'/%3E%3C/svg%3E") !important;
+}
+
+.number-widget-box[data-color-index="1"]::before {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -10px !important;
+    right: -10px !important;
+    width: 140px !important;
+    height: 140px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 60%) !important;
+    z-index: 1 !important;
+}
+
+
+/* Variation 3: Linear Gradient Light/Dark Teal */
+.number-widget-box[data-color-index="2"] {
+    background: linear-gradient(135deg, #10b981 0%, #0d6b59 100%) !important;
+}
+
+.number-widget-box[data-color-index="2"] .widget-title,
+.number-widget-box[data-color-index="2"] .card-stats {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.number-widget-box[data-color-index="2"] .number {
+    color: #ffffff !important;
+}
+
+.number-widget-box[data-color-index="2"] .widget-control svg,
+.number-widget-box[data-color-index="2"] .widget-title span.ellipsis {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+.number-widget-box[data-color-index="2"]::after {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='22 12 18 12 15 21 9 3 6 12 2 12'%3E%3C/polyline%3E%3C/svg%3E") !important;
+}
+
+.number-widget-box[data-color-index="2"]::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    right: -30px !important;
+    width: 150px !important;
+    height: 150px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%) !important;
+    transform: translateY(-50%) !important;
+    z-index: 1 !important;
+}
+
+/* Variation 4: Solid Dark Teal */
+.number-widget-box[data-color-index="3"] {
+    background-color: var(--primary-color) !important;
+}
+
+.number-widget-box[data-color-index="3"] .widget-title,
+.number-widget-box[data-color-index="3"] .card-stats {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.number-widget-box[data-color-index="3"] .number {
+    color: #ffffff !important;
+}
+
+.number-widget-box[data-color-index="3"] .widget-control svg,
+.number-widget-box[data-color-index="3"] .widget-title span.ellipsis {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+.number-widget-box[data-color-index="3"]::after {
+    background-color: #ffffff !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f626a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3Cpath d='M9 16l2 2 4-4'/%3E%3C/svg%3E") !important;
+}
+
+.number-widget-box[data-color-index="3"]::before {
+    content: '' !important;
+    position: absolute !important;
+    right: -20px !important;
+    bottom: -20px !important;
+    width: 140px !important;
+    height: 140px !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3Cpath d='M9 16l2 2 4-4'/%3E%3C/svg%3E") !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    opacity: 0.1 !important;
+    z-index: 1 !important;
 }

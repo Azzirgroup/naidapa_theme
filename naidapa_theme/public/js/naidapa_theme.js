@@ -13,6 +13,13 @@
         naidapa_theme.mutate_workspace_container();
         naidapa_theme.mutate_custom_elements();
         naidapa_theme.inject_navbar_toggle();
+        naidapa_theme.mutate_number_cards();
+    };
+
+    naidapa_theme.mutate_number_cards = function () {
+        $('.number-widget-box').each(function (index) {
+            $(this).attr('data-color-index', index % 4);
+        });
     };
 
     naidapa_theme.inject_navbar_toggle = function () {
@@ -24,12 +31,15 @@
             $('.header-toggle').on('click', function () {
                 const $body = $('body');
                 const $icon = $(this).find('iconify-icon');
+                const $sidebar = $('.vertical-sidebar');
 
                 if ($body.hasClass('sidebar-menu-opened')) {
                     $body.removeClass('sidebar-menu-opened');
+                    $sidebar.removeClass('semi-nav');
                     $icon.attr('icon', 'line-md:menu-fold-left');
                 } else {
                     $body.addClass('sidebar-menu-opened');
+                    $sidebar.addClass('semi-nav');
                     $icon.attr('icon', 'line-md:menu-fold-right');
                 }
             });
