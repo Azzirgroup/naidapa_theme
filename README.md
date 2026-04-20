@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>✨ ERPNext Desk Naidapa Theme (v15)</h1>
+  <h1>✨ ERPNext Desk & Portal Naidapa Theme (v15)</h1>
   <p><i>A beautifully crafted, modern glassmorphic theme for Frappe and ERPNext</i></p>
 </div>
 
@@ -31,8 +31,8 @@
 You can easily install this app using the standard [bench](https://github.com/frappe/bench) CLI:
 
 ```bash
-cd $PATH_TO_YOUR_BENCH
-bench get-app $URL_OF_THIS_REPO --branch develop
+cd frappe-bench
+bench get-app https://github.com/iammusabutt/naidapa_theme.git
 bench install-app naidapa_theme
 ```
 
