@@ -9,8 +9,13 @@
 
 **Naidapa Theme** is a cutting-edge aesthetic overhaul for your Frappe / ERPNext workspace. It radically modernizes your desk experience by replacing the default layout with fresh, deeply considered modern designs. It features glassmorphism, dynamic micro-animations, a modernized responsive sidebar navigation, and soft pastel interactive widgets that bring your screen to life.
 
+**Desk**
 <img width="1910" height="900" alt="Desk" src="https://github.com/user-attachments/assets/811c0a91-58c9-4b5b-a8f8-5575e554fff3" />
 <br>
+**Customer Portal**
+<img width="1903" height="900" alt="Portal" src="https://github.com/user-attachments/assets/a82ef505-4ec5-40eb-911d-c4fa8bcf36ce" />
+<br>
+**Login**
 <img width="1894" height="874" alt="Login" src="https://github.com/user-attachments/assets/9e3363a4-3947-40bd-a5a6-7ccfa2fa584b" />
 
 
