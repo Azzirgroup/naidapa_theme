@@ -120,7 +120,8 @@
     };
 
     naidapa_theme.mutate_number_cards = function () {
-        $('.number-widget-box').each(function (index) {
+        // Try multiple selectors for V16 widgets
+        $('.number-widget-box, .widget-box[data-widget-type="number"], .dashboard-widget[data-widget-type="number"]').each(function (index) {
             $(this).attr('data-color-index', index % 4);
         });
     };
@@ -128,13 +129,20 @@
     naidapa_theme.inject_navbar_toggle = function () {
         if ($('.header-toggle').length === 0) {
             const toggle_html = '<span class="header-toggle" style="margin-right: 15px; cursor: pointer; display: flex; align-items: center; font-size: 22px; color: var(--text-primary);"> <iconify-icon icon="line-md:menu-fold-left"></iconify-icon></span>';
-            $('.navbar-brand').before(toggle_html);
+            
+            // Try multiple selectors for V16 navbar
+            const $navbar = $('.navbar-brand, .standard-navbar .navbar-brand, .app-navbar .navbar-brand');
+            if ($navbar.length) {
+                $navbar.first().before(toggle_html);
+            } else {
+                $('.navbar').first().prepend(toggle_html);
+            }
 
             // Bind click event to toggle sidebar
             $('.header-toggle').on('click', function () {
                 const $body = $('body');
                 const $icon = $(this).find('iconify-icon');
-                const $sidebar = $('.vertical-sidebar');
+                const $sidebar = $('.vertical-sidebar, .sidebar, .layout-side-section');
 
                 if ($body.hasClass('sidebar-menu-opened')) {
                     $body.removeClass('sidebar-menu-opened');
@@ -163,14 +171,22 @@
 
     naidapa_theme.highlight_active_route = function () {
         const current_route = window.location.pathname;
-        $('.main-nav > li').removeClass('active');
+        const current_hash = window.location.hash;
+        
+        // Try multiple selectors for V16 navigation
+        $('.main-nav > li, .sidebar-menu > li, .nav-sidebar > li').removeClass('active');
 
         // Exact matching
-        $(`.main-nav > li > a[href="${current_route}"]`).parent().addClass('active');
+        $(`.main-nav > li > a[href="${current_route}"], .sidebar-menu > li > a[href="${current_route}"], .nav-sidebar > li > a[href="${current_route}"]`).parent().addClass('active');
+
+        // Hash matching for V16 SPA routing
+        if (current_hash) {
+            $(`.main-nav > li > a[href="${current_hash}"], .sidebar-menu > li > a[href="${current_hash}"], .nav-sidebar > li > a[href="${current_hash}"]`).parent().addClass('active');
+        }
 
         // Fuzzy matching
         if (current_route && current_route !== "/app") {
-            $('.main-nav > li > a').each(function () {
+            $('.main-nav > li > a, .sidebar-menu > li > a, .nav-sidebar > li > a').each(function () {
                 let href = $(this).attr('href');
                 if (href && current_route.startsWith(href) && href !== "/app") {
                     $(this).parent().addClass('active');
@@ -187,7 +203,9 @@
         const selectors = [
             '#body > .content > .container',
             '#body > .content > .page-head > .container',
-            '.page-body.container'
+            '.page-body.container',
+            '.layout-main-section .container',
+            '.workspace-container .container'
         ];
 
         selectors.forEach(selector => {
@@ -217,10 +235,13 @@
 
         // Vue components in Frappe Workspace bypass the frappe.Chart global constructor.
         // We force splines directly on rendered instances.
-        $('.frappe-chart').each(function () {
+        $('.frappe-chart, .chart-container, .dashboard-chart').each(function () {
             try {
                 let container = $(this).get(0);
-                let chart = $(container).data('chart') || (container.__vue__ && container.__vue__.chart);
+                let chart = $(container).data('chart') || 
+                           (container.__vue__ && container.__vue__.chart) ||
+                           (container._chart) ||
+                           (frappe.chart && frappe.chart.get_chart_instance(container));
 
                 if (chart && !chart._naidapa_splined) {
                     chart._naidapa_splined = true;
@@ -236,7 +257,7 @@
         });
     };
 
-    const view_names = ["ListView", "FormView", "KanbanView", "ReportView", "GanttView", "Workspace"];
+    const view_names = ["ListView", "FormView", "KanbanView", "ReportView", "GanttView", "Workspace", "TreeView", "CalendarView"];
     view_names.forEach(name => {
         const Orig = frappe.views[name];
         if (!Orig) return;
@@ -245,6 +266,21 @@
             make() {
                 super.make();
                 naidapa_theme.run_patches();
+            }
+            
+            // V16 specific lifecycle methods
+            on_page_show() {
+                if (super.on_page_show) {
+                    super.on_page_show();
+                }
+                naidapa_theme.run_patches();
+            }
+            
+            refresh() {
+                if (super.refresh) {
+                    super.refresh();
+                }
+                setTimeout(() => naidapa_theme.run_patches(), 100);
             }
         };
     });
